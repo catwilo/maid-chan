@@ -1,0 +1,6 @@
+# runtime — trash dir lives at $HOME/.Maid-Trash (outside repo by design)
+*.log
+*.bak
+*.swp
+*~
+.DS_Store
