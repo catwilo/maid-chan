@@ -4,6 +4,8 @@ maid_history_dedup() {
   hfile="${HISTFILE:-$HOME/.zsh_history}"
   [ -f "$hfile" ] || { printf "maid history: HISTFILE not found: %s
 " "$hfile" >&2; return 1; }
+  cp "$hfile" "${hfile}.bak"
+  cp "$hfile" "${hfile}.bak"
   tmp="$(mktemp)"
   awk '
     /^: [0-9]+:[0-9]+;/ { cmd = substr($0, index($0,";")+1) }
