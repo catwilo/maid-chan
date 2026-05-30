@@ -3,9 +3,7 @@
 # Usage: maid <command> [args]
 set -e
 MAID_TRASH="${MAID_TRASH:-$HOME/.Maid-Trash}"
-_self="$0"
-if _real="$(readlink -f "$_self" 2>/dev/null)" && [ -n "$_real" ]; then _self="$_real"; fi
-MAID_DIR="$(cd "$(dirname "$_self")" && pwd)"
+MAID_DIR="$(cd "$(dirname "$(readlink -f "$0")")" && pwd)"
 . "$MAID_DIR/lib/trash.sh"
 . "$MAID_DIR/lib/history.sh"
 
