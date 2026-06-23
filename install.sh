@@ -1,5 +1,4 @@
 #!/bin/sh
-# install.sh — symlink maid into ~/.local/bin (idempotent)
 set -eu
 
 MAID_DIR="$(cd "$(dirname "$0")" && pwd)"
@@ -9,12 +8,23 @@ TARGET="$BIN_DIR/maid"
 mkdir -p "$BIN_DIR"
 chmod +x "$MAID_DIR/maid.sh"
 
-if [ -L "$TARGET" ] && [ "$(readlink "$TARGET")" = "$MAID_DIR/maid.sh" ]; then
-  printf '  ok  already installed: %s\n' "$TARGET"
-else
-  ln -sf "$MAID_DIR/maid.sh" "$TARGET"
-  printf '  ok  installed: %s -> %s\n' "$TARGET" "$MAID_DIR/maid.sh"
-fi
+_install_atomic() {
+    local src="$1" dst="$2"
+    local dstdir tmp
+    dstdir="$(dirname "$dst")"
+    mkdir -p "$dstdir"
+    tmp="$(mktemp -d "$dstdir/.maid-tmp.XXXXXX")/maid"
+    if cp -f "$src" "$tmp"; then
+        chmod +x "$tmp"
+        rm -f "$dst"
+        mv -f "$tmp" "$dst" && printf '  ok  installed: %s\n' "$dst" || { printf '  ERROR: mv failed\n' >&2; exit 1; }
+    else
+        printf '  ERROR: cp failed\n' >&2; exit 1
+    fi
+    rm -rf "$(dirname "$tmp")" 2>/dev/null || true
+}
+
+_install_atomic "$MAID_DIR/maid.sh" "$TARGET"
 
 case ":$PATH:" in
   *":$BIN_DIR:"*) ;;
