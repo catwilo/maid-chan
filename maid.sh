@@ -4,8 +4,8 @@
 set -e
 MAID_TRASH="${MAID_TRASH:-$HOME/.Maid-Trash}"
 MAID_DIR="$(cd "$(dirname "$(readlink -f "$0")")" && pwd)"
-. "$MAID_DIR/lib/trash.sh"
-. "$MAID_DIR/lib/history.sh"
+. "$MAID_DIR/lib-maid/trash.sh"
+. "$MAID_DIR/lib-maid/history.sh"
 
 _usage() {
   cat << EOF
