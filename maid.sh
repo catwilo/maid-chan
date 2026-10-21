@@ -27,6 +27,7 @@ cmd="${1:-}"
 [ -z "$cmd" ] && { _usage; exit 0; }
 shift
 case "$cmd" in
+  -h|--help|help) _usage; exit 0 ;;
   trash)   maid_trash "$@" ;;
   restore) maid_restore "$@" ;;
   list)    maid_list ;;
@@ -34,6 +35,7 @@ case "$cmd" in
   history)
     sub="${1:-}"; [ -z "$sub" ] && { _usage; exit 1; }; shift
     case "$sub" in
+      -h|--help|help) _usage; exit 0 ;;
       dedup)  maid_history_dedup ;;
       search) maid_history_search ;;
       *) printf "maid history: unknown subcommand: %s
