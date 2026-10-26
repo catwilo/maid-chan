@@ -4,6 +4,9 @@ File trash and zsh history manager for terminal workflows.
 
 ## Commands
 
+`maid --help`, `maid -h` and `maid help` all print the canonical
+command list. `maid history -h` prints it too.
+
 ### Trash
 ```sh
 maid trash <file...>   # move to ~/.Maid-Trash/
